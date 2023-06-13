@@ -30,7 +30,8 @@ optimizer = torch.optim.Adam(model.parameters(), lr=5e-4)
 epochs = 10
 for epoch in range(epochs):
     for wrong_sentence, fixed_sentence, result in zip(wrong_sentences, fixed_sentences, results):
-        prompt = 'Please Fix the this Sentence : "' + wrong_sentence + '" \n\nResult : "' + fixed_sentence +'"\n\nExplanation : ' + result
+        instruction = "Please correct any grammatical errors in the original sentence.\n\n"
+        prompt = instruction + 'original Sentence : "' + wrong_sentence + '" \n\nResult : "' + fixed_sentence +'"\n\nExplanation : ' + result
         inputs = tokenizer(prompt, return_tensors="pt")
         ouputs = model(inputs.input_ids.to('cuda'), labels = inputs.input_ids.to('cuda'))
         optimizer.zero_grad()
